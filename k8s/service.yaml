@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-devops-python
+  namespace: demo-devops
+  labels:
+    app: demo-devops-python
+spec:
+  type: ClusterIP
+  selector:
+    app: demo-devops-python
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
