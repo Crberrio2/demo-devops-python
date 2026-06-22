@@ -127,6 +127,7 @@ jobs:
         uses: helm/kind-action@v1
         with:
           cluster_name: ci
+          config: .github/kind-config.yaml
 
       - name: Install NGINX Ingress Controller
         run: |
@@ -134,7 +135,7 @@ jobs:
           kubectl wait --namespace ingress-nginx \
             --for=condition=ready pod \
             --selector=app.kubernetes.io/component=controller \
-            --timeout=180s
+            --timeout=300s
 
       - name: Build and load image into kind
         run: |
@@ -153,9 +154,20 @@ jobs:
         run: |
           kubectl -n demo-devops get all,ingress,hpa,configmap,secret,pvc
 
-      - name: Smoke test the endpoint
+      - name: Smoke test via Service (port-forward)
         run: |
           kubectl -n demo-devops port-forward svc/demo-devops-python 8080:80 &
           sleep 8
           curl -fsS http://localhost:8080/api/health/live/
           curl -fsS http://localhost:8080/api/users/
+
+      - name: Smoke test via Ingress
+        run: |
+          kubectl -n demo-devops wait --for=condition=available deployment/demo-devops-python --timeout=120s
+          for i in $(seq 1 10); do
+            if curl -fsS -H "Host: demo-devops.local" http://localhost/api/health/live/; then
+              echo "ingress OK"; exit 0
+            fi
+            echo "retry $i..."; sleep 6
+          done
+          echo "ingress not reachable"; exit 1
