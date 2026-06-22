@@ -11,6 +11,7 @@ lo relativo a contenerización, integración/entrega continua e infraestructura.
 
 - **Repositorio:** https://github.com/Crberrio2/demo-devops-python
 - **Pipeline (GitHub Actions):** https://github.com/Crberrio2/demo-devops-python/actions
+- **Evidencia del pipeline:** [docs/PIPELINE.md](docs/PIPELINE.md)
 - **Imagen (GHCR):** `ghcr.io/crberrio2/demo-devops-python:latest`
 
 > No se publicó un endpoint permanente (el ejercicio permite un entorno local). El
