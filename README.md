@@ -7,6 +7,16 @@ despliegue en Kubernetes con alta disponibilidad y autoescalado.
 La aplicación base proviene de la prueba técnica de Devsu. Sobre ella se añadió todo
 lo relativo a contenerización, integración/entrega continua e infraestructura.
 
+## Enlaces
+
+- **Repositorio:** https://github.com/Crberrio2/demo-devops-python
+- **Pipeline (GitHub Actions):** https://github.com/Crberrio2/demo-devops-python/actions
+- **Imagen (GHCR):** `ghcr.io/crberrio2/demo-devops-python:latest`
+
+> No se publicó un endpoint permanente (el ejercicio permite un entorno local). El
+> despliegue en Kubernetes se valida automáticamente en cada ejecución del pipeline
+> sobre un cluster `kind` efímero, y puede levantarse en local con `make k8s-deploy`.
+
 ## Contenido
 
 - [Arquitectura](#arquitectura)

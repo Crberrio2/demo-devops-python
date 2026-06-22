@@ -94,13 +94,15 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Vulnerability scan (Trivy)
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: scan-target:latest
-          format: table
-          exit-code: '0'
-          ignore-unfixed: true
-          severity: CRITICAL,HIGH
+        run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            aquasec/trivy:0.51.1 image \
+            --severity CRITICAL,HIGH \
+            --ignore-unfixed \
+            --exit-code 0 \
+            --format table \
+            scan-target:latest
 
       - name: Push image
         if: github.event_name != 'pull_request'
